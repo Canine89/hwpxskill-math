@@ -7,14 +7,20 @@ hwpx 스킬과 동일한 XML-first 워크플로우를 따르며, 기존 hwpx 스
 ## 환경
 
 ```
-SKILL_DIR="/Users/canine89/Documents/dev/skills/.claude/skills/math-hwpx"
-HWPX_SKILL_DIR="/Users/canine89/Documents/dev/skills/.claude/skills/hwpx"
-VENV="/Users/canine89/Documents/dev/skills/.venv/bin/activate"
+# SKILL_DIR는 이 SKILL.md가 위치한 디렉토리의 절대 경로로 설정
+SKILL_DIR="$(cd "$(dirname "$0")/.." && pwd)"   # 스크립트 내에서
+
+# hwpx 기본 스킬 경로 (검증/추출 도구 사용 시)
+HWPX_SKILL_DIR="<hwpx 스킬 설치 경로>"
+
+# Python 가상환경 (프로젝트에 맞게 설정)
+VENV="<프로젝트>/.venv/bin/activate"
 ```
 
 모든 Python 실행 시:
 ```bash
-source /Users/canine89/Documents/dev/skills/.venv/bin/activate
+# 프로젝트의 .venv를 활성화 (pip install lxml 필요)
+source "$VENV"
 ```
 
 ## 디렉토리 구조
@@ -581,7 +587,7 @@ python3 "$HWPX_SKILL_DIR/scripts/office/pack.py" ./unpacked/ edited.hwpx
 4. **mimetype 순서**: ZIP 패키징 시 mimetype은 첫 번째 엔트리, ZIP_STORED
 5. **ID 고유성**: 문단 ID, 수식 ID 모두 문서 내 유일해야 함
 6. **charPrIDRef 정합성**: section0.xml에서 참조하는 charPr ID가 header.xml에 존재해야 함
-7. **venv 사용**: `/Users/canine89/Documents/dev/skills/.venv/bin/activate`
+7. **venv 사용**: 프로젝트의 `.venv/bin/activate` (lxml 패키지 필요)
 8. **검증 필수**: 생성 후 validate.py로 무결성 확인
 9. **수식 크기**: `baseUnit="1000"` = 10pt (본문과 동일), 필요시 `1200`(12pt) 등 조절
 10. **선택지 수식**: JSON에서 `$...$`로 감싸면 수식으로 처리
